@@ -41,8 +41,6 @@ def get_disease_stats(disease: str = "dengue") -> str:
     try:
         url = "https://disease.sh/v3/covid-19/historical/all?lastdays=1"
         response = requests.get(url).json()
-        # disease.sh mainly has COVID historical data,
-        # but we simulate for other diseases (static message or link).
         if disease.lower() == "monkeypox":
             return "🐒 Monkeypox cases are being tracked by WHO. Common symptoms: fever, rash, swollen lymph nodes."
         elif disease.lower() == "dengue":
@@ -54,17 +52,11 @@ def get_disease_stats(disease: str = "dengue") -> str:
     except:
         return "⚠️ Unable to fetch outbreak data right now."
 
-# ---------- MAIN CHATBOT ----------
-
 def health_chatbot(user_message: str) -> str:
     """Health chatbot with static + live outbreak data"""
     user_message = user_message.lower()
-
-    # Greetings
     if "hello" in user_message or "hi" in user_message:
         return "Hello 👋 I am your Health Bot. You can ask me about symptoms, prevention, COVID stats, or outbreaks like dengue/monkeypox."
-
-    # Live data
     elif "covid cases" in user_message or "covid stats" in user_message:
         return get_covid_stats("India")
     elif "global covid" in user_message or "world covid" in user_message:
@@ -75,8 +67,6 @@ def health_chatbot(user_message: str) -> str:
         return get_disease_stats("monkeypox")
     elif "ebola" in user_message:
         return get_disease_stats("ebola")
-
-    # Symptoms & diseases
     elif "fever" in user_message:
         return "🌡️ Fever may be caused by infection or dehydration. Rest, drink fluids, and monitor. If it lasts >3 days, see a doctor."
     elif "headache" in user_message:
@@ -87,15 +77,12 @@ def health_chatbot(user_message: str) -> str:
         return "🍬 Diabetes management: balanced diet, exercise, regular sugar checks. Avoid excess sugar & processed foods."
     elif "heart" in user_message:
         return "❤️ Heart health tip: exercise daily, eat fruits/veggies, avoid smoking & excess alcohol."
-
-    # Prevention & lifestyle
     elif "vaccine" in user_message:
         return "💉 Vaccines protect against severe diseases. Stay updated with COVID, Flu, and other vaccines. Visit your nearest health center."
     elif "diet" in user_message:
         return "🥗 Eat fruits, vegetables, whole grains, lean proteins. Limit fried foods & sugary drinks."
     elif "exercise" in user_message:
         return "🏃‍♂️ 30 mins of daily activity (walking, yoga, cycling) keeps your body and mind healthy."
-
-    # Default
     else:
         return "❓ Sorry, I didn't understand. Try asking about fever, COVID stats, dengue, monkeypox, vaccines, or heart health."
+
